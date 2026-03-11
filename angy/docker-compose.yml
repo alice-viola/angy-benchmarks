@@ -1,0 +1,68 @@
+services:
+  postgres:
+    image: postgis/postgis:16-3.4
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-nexus}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-nexus}
+      POSTGRES_DB: ${POSTGRES_DB:-nexus_fleet}
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./scripts/init-db.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-nexus} -d ${POSTGRES_DB:-nexus_fleet}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redisdata:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: .
+      dockerfile: packages/backend/Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      DATABASE_URL: postgres://nexus:nexus@postgres:5432/nexus_fleet
+      REDIS_URL: redis://redis:6379
+      NODE_ENV: production
+      PORT: 3000
+      HOST: 0.0.0.0
+      CORS_ORIGIN: http://localhost:5173
+      JWT_PRIVATE_KEY_PATH: /app/keys/private.pem
+      JWT_PUBLIC_KEY_PATH: /app/keys/public.pem
+      JWT_ISSUER: nexus-fleet
+      JWT_AUDIENCE: nexus-fleet-api
+      JWT_ACCESS_TOKEN_TTL: 900
+      JWT_REFRESH_TOKEN_TTL: 604800
+      LOG_LEVEL: debug
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  frontend:
+    build:
+      context: .
+      dockerfile: packages/frontend/Dockerfile
+    ports:
+      - "5173:80"
+    depends_on:
+      - backend
+
+volumes:
+  pgdata:
+  redisdata:

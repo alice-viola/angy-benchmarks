@@ -1,0 +1,28 @@
+import { defineConfig } from 'vite';
+import vue from '@vitejs/plugin-vue';
+import { resolve } from 'path';
+
+const apiTarget = process.env.API_PROXY_TARGET || 'http://localhost:3000';
+
+export default defineConfig({
+  plugins: [vue()],
+  resolve: {
+    alias: {
+      '@': resolve(__dirname, 'src'),
+    },
+  },
+  server: {
+    port: 5173,
+    host: '0.0.0.0',
+    proxy: {
+      '/api': {
+        target: apiTarget,
+        changeOrigin: true,
+      },
+      '/ws': {
+        target: apiTarget.replace(/^http/, 'ws'),
+        ws: true,
+      },
+    },
+  },
+});

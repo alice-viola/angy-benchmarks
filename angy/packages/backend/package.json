@@ -1,0 +1,43 @@
+{
+  "name": "@nexus-fleet/backend",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "./dist/server.js",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx watch src/server.ts",
+    "start": "node dist/server.js",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "db:seed": "tsx src/db/seed.ts",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "@fastify/cookie": "^9.4.0",
+    "@fastify/cors": "^9.0.0",
+    "@fastify/websocket": "^10.0.0",
+    "@nexus-fleet/shared": "*",
+    "bcrypt": "^5.1.0",
+    "bullmq": "^5.0.0",
+    "drizzle-orm": "^0.33.0",
+    "fastify": "^4.28.0",
+    "fastify-plugin": "^5.1.0",
+    "ioredis": "^5.4.0",
+    "jsonwebtoken": "^9.0.0",
+    "pino": "^9.0.0",
+    "postgres": "^3.4.0",
+    "slugify": "^1.6.0",
+    "zod": "^3.23.0"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "^5.0.0",
+    "@types/jsonwebtoken": "^9.0.0",
+    "@types/ws": "^8.18.1",
+    "drizzle-kit": "^0.24.0",
+    "tsx": "^4.0.0",
+    "typescript": "^5.5.0",
+    "vitest": "^2.0.0"
+  }
+}

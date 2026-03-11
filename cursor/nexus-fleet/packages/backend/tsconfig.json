@@ -1,0 +1,12 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "paths": {
+      "@nexus-fleet/shared": ["../shared/src"],
+      "@nexus-fleet/shared/*": ["../shared/src/*"]
+    }
+  },
+  "include": ["src/**/*"]
+}

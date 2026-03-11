@@ -1,0 +1,17 @@
+{
+  "name": "nexus-fleet",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "npm run build --workspaces",
+    "dev": "docker compose up",
+    "db:init": "psql $DATABASE_URL -f scripts/init-db.sql",
+    "generate-keys": "bash scripts/generate-keys.sh",
+    "seed": "bash scripts/seed.sh"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
