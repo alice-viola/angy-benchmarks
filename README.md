@@ -46,7 +46,7 @@ The total surface area is manageable for a human team working over weeks, but as
 
 ### Cursor — 41 minutes
 
-Cursor used its Agent mode with the Opus 4.6 model. It worked through a 13-item to-do list in a single session, generating 17 files across the monorepo in one continuous pass.
+Cursor used its Agent mode with the Opus 4.6 model. It worked through a 13-item to-do list in a single session, generating 122 source files across the monorepo in one continuous pass.
 
 ![Cursor build session](assets/cursor-build.png)
 
