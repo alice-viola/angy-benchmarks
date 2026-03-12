@@ -1,0 +1,16 @@
+node_modules/
+dist/
+build/
+.env
+*.local
+.DS_Store
+*.log
+coverage/
+.nyc_output/
+*.tsbuildinfo
+drizzle/meta/
+keys/
+*.pem
+test-results/
+playwright-report/
+blob-report/

@@ -1,0 +1,21 @@
+{
+  "name": "nexusfleet",
+  "private": true,
+  "version": "0.0.1",
+  "workspaces": [
+    "packages/shared",
+    "packages/backend",
+    "packages/frontend"
+  ],
+  "scripts": {
+    "build:shared": "npm run build -w packages/shared",
+    "dev:backend": "npm run dev -w packages/backend",
+    "dev:frontend": "npm run dev -w packages/frontend",
+    "typecheck": "tsc --noEmit -p packages/shared/tsconfig.json",
+    "generate-keys": "bash scripts/generate-keys.sh",
+    "test": "npm run test --workspaces --if-present"
+  },
+  "engines": {
+    "node": ">=22.0.0"
+  }
+}
