@@ -8,6 +8,30 @@ This repository contains three independent implementations of **NexusFleet**, a 
 
 All three agents were given the same specification (`epic.md`) and asked to produce a complete, working application from scratch.
 
+---
+
+## Results at a Glance
+
+| | Cursor | Claude Code | Angy v2 |
+|---|:---:|:---:|:---:|
+| **Cold start** (`docker compose up`, no fixes) | ✗ | ✗ | **✓** |
+| **Manual fixes required** | 4 | 5 | **0** |
+| **Pages working after setup** | ~1 / 10 | ~5 / 10 | **~9 / 10** |
+| **Live map on dashboard** | ✓ (broken pages) | ✓ | **✓** |
+| **State machine wired end-to-end** | ✗ (dead code) | Partial (action mismatch) | **✓** |
+| **Seed data visible** | ✗ | ✓ (list pages) | **✓** |
+| **Test coverage** | 830 LOC | 0 LOC | **1,893 LOC + E2E** |
+| **Build time** | 41 min | Unknown | Unknown (44+ iterations) |
+| **Total source LOC** | 16,155 | 13,180 | 16,379 |
+
+**Winner: Angy v2.** The only implementation to pass the `docker compose up` benchmark without a single manual code fix. After seeding the database, ~9 of 10 pages are functional with the state machine correctly wired end-to-end.
+
+**Second: Claude Code.** Five fixes needed, but login, dashboard, and shipments list work with seed data visible. Deep integration bugs (action naming mismatches, missing routes, broken navigation) prevent full functionality.
+
+**Third: Cursor.** Best visual design, but the shipment state machine is dead code never connected to the HTTP layer, and two unresolved runtime errors leave all pages except login non-functional.
+
+---
+
 > **Note on Angy versioning.** A first run of the Angy pipeline (`angy/`) was completed before this one. It produced a largely working implementation but still required 5 manual code fixes before `docker compose up` succeeded. That run is preserved in `angy/` for reference. **Angy v2** (`angy-v2/`) is a new run of the same pipeline — same spec, same model, improved internal tooling — and is the result used in this comparison. It is the first of all four runs to cold-start without any manual intervention.
 
 ## Why This Epic Is Hard
